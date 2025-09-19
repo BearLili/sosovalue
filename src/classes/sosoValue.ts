@@ -5,6 +5,7 @@ import path from "path";
 import { antiCaptcha, solveTurnstileCaptcha, solveTurnstileCaptchaPuppeter } from "../utils/captchaServices";
 import { EmailGenerator } from "../utils/generate";
 import { logMessage } from "../utils/logger";
+import { encryptPasswordRSASync } from "../utils/rsaEncrypt";
 import { authorize } from "./authGmail";
 import { getProxyAgent } from "./proxy";
 
@@ -158,7 +159,7 @@ export class sosoValuRefferal {
       Referer: "https://sosovalue.com",
       Cookie: sessionCookies,
     };
-
+    
     const dataSend = {
       email: email,
       password: password,
@@ -408,16 +409,16 @@ export class sosoValuRefferal {
       );
       return null;
     }
-
-    const registerData = {
-      email: email,
-      invitationCode: this.refCode,
-      invitationFrom: null,
-      password: password,
-      rePassword: password,
-      username: "NEW_USER_NAME_02",
-      verifyCode: verifyCode,
-    };
+    
+      const registerData = {
+        email: email,
+        invitationCode: this.refCode,
+        invitationFrom: null,
+        password: encryptPasswordRSASync(password),
+        rePassword: encryptPasswordRSASync(password),
+        username: "NEW_USER_NAME_02",
+        verifyCode: verifyCode,
+      };
 
     const response = await this.makeRequest(
       "POST",

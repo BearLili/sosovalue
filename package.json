@@ -17,6 +17,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/imapflow": "^1.0.19",
     "@types/mailparser": "^3.4.5",
     "@types/node": "^22.10.10",
@@ -26,6 +27,7 @@
     "@antiadmin/anticaptchaofficial": "^1.0.50",
     "axios": "^1.7.9",
     "chalk": "^4.1.2",
+    "crypto-js": "^4.2.0",
     "fs": "^0.0.1-security",
     "https-proxy-agent": "^7.0.6",
     "imapflow": "^1.0.178",
