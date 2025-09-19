@@ -39,7 +39,7 @@ export class sosoValuRefferal {
 
   }
 
-  async makeRequest(method: string, url: string, config: any = {}, retries: number = 3): Promise<AxiosResponse | null> {
+  async makeRequest(method: string, url: string, config: any = {}, retries: number = 1): Promise<AxiosResponse | null> {
     for (let i = 0; i < retries; i++) {
       try {
         const response = await axios({
@@ -49,14 +49,36 @@ export class sosoValuRefferal {
           ...config,
         });
         return response;
-      } catch (error) {
+      } catch (error: any) {
+        // 详细的错误信息打印
+        const errorDetails = {
+          method,
+          url,
+          attempt: i + 1,
+          totalAttempts: retries,
+          errorMessage: error.message,
+          errorCode: error.code,
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          responseData: error.response?.data,
+          requestData: config.data,
+          headers: config.headers
+        };
+        
+        logMessage(
+          this.currentNum,
+          this.total,
+          `Request failed (attempt ${i + 1}/${retries}):\n${JSON.stringify(errorDetails, null, 2)}`,
+          "error"
+        );
+        
         if (i === retries - 1) {
-          logMessage(null, null, `Request failed: ${(error as any).message}`, "error");
           return null;
         }
+        
         logMessage(
-          null,
-          null,
+          this.currentNum,
+          this.total,
           `Retrying... (${i + 1}/${retries})`,
           "warning"
         );
