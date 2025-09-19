@@ -420,6 +420,9 @@ export class sosoValuRefferal {
         verifyCode: verifyCode,
       };
 
+      // 打印注册请求参数
+      logMessage(this.currentNum, this.total, `Register request data: ${JSON.stringify(registerData, null, 2)}`, "info");
+
     const response = await this.makeRequest(
       "POST",
       "https://gw.sosovalue.com/usercenter/user/anno/v3/register",
@@ -428,6 +431,12 @@ export class sosoValuRefferal {
       }
     );
 
+      // 打印注册响应数据
+      if (response) {
+        logMessage(this.currentNum, this.total, `Register response: ${JSON.stringify(response.data, null, 2)}`, "info");
+      } else {
+        logMessage(this.currentNum, this.total, "Register response: null", "error");
+      }
 
     if (response && response.data.code == 0) {
       logMessage(this.currentNum, this.total, "Register Succesfully", "success");
